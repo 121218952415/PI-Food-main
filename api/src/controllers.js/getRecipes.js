@@ -15,10 +15,9 @@ const getApiInfo = async () => {
       Diets: e.diets.map((d) => {
         return { name: d };
       }), // un array con los tipos de dieta de esa receta
-      spoonacularScore: e.spoonacularScore, // puntuacion
-      dishTypes: e.dishTypes.map((d) => {
-        return { name: d };
-      }), // tipo de plato y un arreay de tipos de  platos
+      // dishTypes: e.dishTypes.map((d) => {
+      //   return { name: d };
+      // }),  tipo de plato y un arreay de tipos de  platos
       summary: e.summary, // un resumen del plato
       healthScore: e.healthScore, // que tan saludable es
       analyzedInstructions: e.analyzedInstructions[0]?.steps.map(e => {

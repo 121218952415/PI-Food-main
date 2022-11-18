@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const { Recipe, Diets } = require("../db"); // tratigo  los modelos de db
 const axios = require("axios"); // para convertir de joson a opjeto
-const { getApiById, getApiInfo } = require("../controllers.js/getRecipes");
+const { getApiById, getApiInfo ,getuniapis} = require("../controllers.js/getRecipes");
 const server = require("../app");
 
 // empesamos las rutas
@@ -10,7 +10,8 @@ router.get("/", async (req, res) => {
   //   console.log(recipes);
   try {
     const { name } = req.query; // si el parametro viene por query
-    let allrecipes = await getApiInfo(); // alojo toda la info de mi api externa
+    let allrecipes = await getuniapis(); // alojo toda la info de mi api externa
+    
     if (name) {
       // si viene por name
       let recipeByQuery = allrecipes.filter(
@@ -26,7 +27,7 @@ router.get("/", async (req, res) => {
       res.status(200).send(allrecipes);
     }
   } catch (error) {
-    res.status(404).send("platillo no encontrado");
+    res.status(404).send(error.message);
   }
 });
 router.get("/:id", async (req, res) => {
@@ -37,7 +38,6 @@ router.get("/:id", async (req, res) => {
       let recipeDetails = {
         image: apiRecipesById.data.image,
         name: apiRecipesById.data.title,
-        dishTypes: apiRecipesById.data.dishTypes,
         dietTypes: apiRecipesById.data.diets,
         summary: apiRecipesById.data.summary,
         score: apiRecipesById.data.spoonacularScore,
@@ -52,7 +52,7 @@ router.get("/:id", async (req, res) => {
       return res.status(200).send(recipeDetails);
     }
   } catch (error) {
-    res.status(404).send(`no se encuentra id ${id}`);
+    res.status(404).send(error.message);
   }
 });
 
